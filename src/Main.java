@@ -1,29 +1,20 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Scanner;
-//https://www.hackerrank.com/challenges/phone-book/problem?isFullScreen=true
+import java.util.Set;
+//https://www.hackerrank.com/challenges/java-hashset/problem?isFullScreen=true
 public class Main {
     public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        int n = in.nextInt();
-        in.nextLine(); //satir sonunu atlar
+        Scanner s = new Scanner(System.in);
+        int t = s.nextInt();
+        s.nextLine();
 
-        Map<String,String> phoneBook = new HashMap<>();//phone book
+        Set<String>uniquePairs=new HashSet<>();//farklı ciftler icin hashset
 
-        //giris ekle
-        for (int i = 0; i < n; i++) {
-            String name = in.nextLine();
-            String phone = in.nextLine();
-            phoneBook.put(name, phone);
+        for (int i = 0; i < t; i++) {
+            String pair = s.nextLine();
+            uniquePairs.add(pair); //sete ekle
+            System.out.println(uniquePairs.size());// kac tane old. yazdır
         }
-        while (in.hasNext()) {
-            String s = in.nextLine();
-            if (phoneBook.containsKey(s)) {
-                System.out.println(s +" " + phoneBook.get(s));
-            }else{
-                System.out.println("not found");
-            }
-        }
-        in.close();
+        s.close();
     }
 }
