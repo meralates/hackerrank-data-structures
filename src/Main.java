@@ -1,27 +1,32 @@
-import java.util.Scanner;
-//https://www.hackerrank.com/challenges/java-negative-subarray/problem?isFullScreen=true
+import java.util.*;
+//https://www.hackerrank.com/challenges/java-generics/problem?isFullScreen=true
+class Printer{
+    public static<T>void printArray(T[]array){
+        for(T element : array){
+            System.out.println(element);
+        }
+    }
+}
+
 public class Main {
+
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        int n = sc.nextInt(); //dizinin uzunlugu al
-        int[] arr = new int[n];
-
-        for (int i = 0; i < n; i++) {//kullanicidan diziyi al
-            arr[i] = sc.nextInt();
-        }
-        int negativeSubarraysCount = 0;
-
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt(); //array boyutu al
+        Integer[] intArray = new Integer[n];
         for (int i = 0; i < n; i++) {
-            int sum =0;
-            for (int j = i; j < n; j++) { //tum alt diziler hessaplanir
-                sum += arr[j];
-
-                if (sum < 0) {
-                    negativeSubarraysCount++;
-                }
-            }
+            intArray[i] = scanner.nextInt(); //elemanlari al
         }
-        System.out.println(negativeSubarraysCount);//negatif alt dizilerin sayisi
+        //String array icin input-print
+        int m = scanner.nextInt();
+        String[] stringArray = new String[m];
+        for (int i = 0; i < m; i++) {
+            stringArray[i] = scanner.next();
+        }
+        Printer.printArray(intArray);
+        Printer.printArray(stringArray);
+         if (Printer.class.getDeclaredMethods().length>1){
+             System.out.println("The printer class should only have one method named printArray");
+         }
     }
 }
