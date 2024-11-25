@@ -1,31 +1,32 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-//https://www.hackerrank.com/challenges/java-arraylist/problem?isFullScreen=true
+//https://www.hackerrank.com/challenges/java-list/problem?isFullScreen=true
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        ArrayList<ArrayList<Integer>> mainlist = new ArrayList<>();//array list
-
-        int n = scanner.nextInt(); //satir sayisi
-        for (int i = 0; i < n; i++) { //her satiri okur,arrayliste ekler
-            int d= scanner.nextInt();
-            ArrayList<Integer> row = new ArrayList<>();
-            for (int j = 0; j < d; j++) {
-                row.add(scanner.nextInt());//alt liste
-            }
-            mainlist.add(row);
+        int n = sc.nextInt();//list uzunluğunu oku
+        ArrayList<Integer> list = new ArrayList<>();
+        //elemanları oku
+        for (int i = 0; i < n; i++) {
+            list.add(sc.nextInt());
         }
-        int q = scanner.nextInt(); //sorgu sayısını okur
+        //sorgu sayısı
+        int q = sc.nextInt();
         for (int i = 0; i < q; i++) {
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
-            try{
-                System.out.println(mainlist.get(x - 1).get(y - 1));// x satır-y eleman
-            }catch (IndexOutOfBoundsException e){
-                System.out.println("ERROR !!!");
+            String operation = sc.next();//insert veya delete
+            if (operation.equals("Insert")) {
+                int index = sc.nextInt();
+                int element = sc.nextInt();
+                list.add(index, element);
+            }else if (operation.equals("Delete")) {
+                int index = sc.nextInt();
+                list.remove(index);
             }
         }
-        scanner.close();
+        sc.close();
+        for(int num : list) {
+            System.out.println(num + " ");
+        }
     }
 }
