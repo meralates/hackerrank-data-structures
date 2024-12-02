@@ -1,38 +1,34 @@
-import java.util.Scanner;
-import java.util.Stack;
-//https://www.hackerrank.com/challenges/java-stack/problem?isFullScreen=true
-//last in first outu kullanır
+import java.util.*;
+//https://www.hackerrank.com/challenges/java-dequeue/problem?isFullScreen=true
 public class Main {
-    public static boolean isBalanced(String str) {
-        Stack<Character> stack = new Stack<>(); // Stack olusur
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();//dizi b.
+        int k = sc.nextInt();//pencere b.
 
-        for (char ch : str.toCharArray()) {
-            if (ch == '(' || ch == '{' || ch == '[') {
-                stack.push(ch);
-            } else if (ch == ')' || ch == '}' || ch == ']') {
-                if (stack.isEmpty()) {//boşsa eşleşme olmaz
-                    return false;
-                }
-                char last = stack.pop();
-                if ((ch == ')' && last != '(') ||
-                        (ch == '}' && last != '{') ||
-                        (ch == ']' && last != '[')) {
-                    return false;
+        int[] arr = new int[n];
+
+        for (int i = 0; i < n; i++) {//arrayi okur
+            arr[i] = sc.nextInt();
+        }
+
+        Deque<Integer> deque = new ArrayDeque<>();//pencere
+        HashSet<Integer> set  = new HashSet<>();//unique eleman takbi
+        int maxUnique=0;
+
+        for (int i = 0; i < n; i++) {
+            int current=arr[i];
+            deque.add(current);//elemanı ekle
+            set.add(current);//hashsete ekle
+
+            if (deque.size()>k) {//boyutu aştıysa
+                int removed=deque.poll();//ilk elemanı çıkart
+                if (!deque.contains(removed)) {
+                    set.remove(removed);//hashsetten çıkart
                 }
             }
+            maxUnique=Math.max(maxUnique,set.size());
         }
-        return stack.isEmpty();//stack bos olmali
-    }
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNext()) {
-            String input = scanner.nextLine();
-            System.out.println(isBalanced(input));
-        }
-        scanner.close();
+        System.out.println(maxUnique);
     }
 }
-
-
-
-
