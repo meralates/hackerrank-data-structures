@@ -12,7 +12,7 @@ public class Main {
             arr[i] = sc.nextInt();
         }
 
-        Deque<Integer> deque = new ArrayDeque<>();//pencere
+        Deque<Integer> deque = new ArrayDeque<>();//alt dizi
         HashSet<Integer> set  = new HashSet<>();//unique eleman takbi
         int maxUnique=0;
 
