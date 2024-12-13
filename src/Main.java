@@ -1,97 +1,39 @@
-import java.util.*;
-//https://www.hackerrank.com/challenges/java-priority-queue/problem?isFullScreen=true
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+//https://www.hackerrank.com/challenges/java-2d-array/problem?isFullScreen=true
 public class Main {
-
-    static class Student {
-        private String name;
-        private double cgpa;
-        private int id;
-
-        public Student(String name, double cgpa, int id) {
-            this.name = name;
-            this.cgpa = cgpa;
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public double getCgpa() {
-            return cgpa;
-        }
-
-        public int getId() {
-            return id;
-        }
-    }
-
-    static class Priorities {
-        public List<Student> getStudents(List<String> events) {
-            PriorityQueue<Student> pq = new PriorityQueue<>(new Comparator<Student>() {
-                @Override
-                public int compare(Student s1, Student s2) {
-                    //CGPA'ya göre azalan
-                    if (Double.compare(s2.getCgpa(), s1.getCgpa()) != 0) {
-                        return Double.compare(s2.getCgpa(), s1.getCgpa());
-                    }
-                    //cgpa'lar eşitse, isimlere göre
-                    if (!s1.getName().equals(s2.getName())) {
-                        return s1.getName().compareTo(s2.getName());
-                    }
-                    //isimler eşitse id'ye göre
-                    return Integer.compare(s1.getId(), s2.getId());
-                }
-            });
-
-            for (String event : events) {
-                String[] eventDetails = event.split(" "); // bosluk
-                if (eventDetails[0].equals("ENTER")) {
-                    String name = eventDetails[1];
-                    double cgpa = Double.parseDouble(eventDetails[2]);
-                    int id = Integer.parseInt(eventDetails[3]);
-
-                    // ogr ekle
-                    Student student = new Student(name, cgpa, id);
-                    pq.add(student);
-                } else if (eventDetails[0].equals("SERVED")) {
-                    //en yüksek öncelikliyi çıkar
-                    pq.poll();
-                }
-            }
-
-            //sıralı öğrencileri listeye ekle
-            List<Student> students = new ArrayList<>();
-            while (!pq.isEmpty()) {
-                students.add(pq.poll());
-            }
-            return students;
-        }
-    }
-
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Priorities priorities = new Priorities();
-
-        int totalEvents = Integer.parseInt(scanner.nextLine());
-        List<String> events = new ArrayList<>();
-
-        while (totalEvents-- > 0) {
-            String event = scanner.nextLine();
-            events.add(event);
-        }
-
-        List<Student> students = priorities.getStudents(events); // ogr al
-
-        //sonuçlar
-        if (students.isEmpty()) {
-            System.out.println("EMPTY");
-        } else {
-            for (Student student : students) {
-                System.out.println(student.getName());
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        List<List<Integer>> arr = new ArrayList<>();
+        //6 satırlık giriş aldık ve her satırı integera dönüştürdük
+        IntStream.range(0,6).forEach(i-> {
+            try{
+                arr.add(
+                        Stream.of(bufferedReader.readLine().replaceAll("\\s+$","").split(" "))
+                                .map(Integer::parseInt)
+                                .collect(Collectors.toList())
+                );
+            }catch (IOException ex){
+                throw new RuntimeException(ex);
+            }
+        });
+        int maxSum=Integer.MIN_VALUE;
+        //hourglassları bulmak için 4x4 alanda geziyoruz
+        for (int i = 0; i<4; i++) {
+            for (int j = 0; j<4; j++) {
+                //hourglass olusturup 7 hücreden toplamı alıyoruz
+                int sum = arr.get(i).get(j)+arr.get(i).get(j+1)+arr.get(i).get(j+2)
+                        +arr.get(i+1).get(j+1)
+                        +arr.get(i+2).get(j)+arr.get(i+2).get(j+1)+arr.get(i+2).get(j+2);
+                maxSum = Math.max(maxSum,sum);//en büyük toplamı buluyo
             }
         }
-
-        scanner.close();
+        System.out.println(maxSum);
     }
 }
